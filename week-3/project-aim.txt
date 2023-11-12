@@ -1,0 +1,13 @@
+Think of having a telco company which aims to understand why people churn in a first place, and then automate that process by using ML models which predicts
+if the customer will actually churn. Given that information telco company could offer discounts, promotions etc. or work on fixing some common things that may be hidden due to
+complexity of the whole system/process of work.
+
+But, having a ML model informing you about whether customer will actually churn or not might be a tricky problem.
+Imagine sending a discount to a customer that is already satisfied with price and everything that the company is offering. Those are false positives.
+What comes to my mind to mitigate this problem is using  one of the 'up-to-date' uncertainty quantification methods, 'conformal prediction'.
+People and companies who adopt CP see a great benefit in assesing the uncertainty that 'predict_proba' can't actually quantify.
+Just for the sake of learning and applying it I will use it in this project.
+
+Be aware that this toy project serves it's purpose as a playground, but on large-scale projects where the real money is involved, usually there are a LOT of things to consider 
+than what this project can offer.
+
