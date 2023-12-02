@@ -30,6 +30,10 @@ def predict():
     #Assuming that we are sending data in the JSON type, and 
     #that dv.transform() needs dict type this will turn that
     #request into dict:
+    '''
+    request.get_json() will return a Python dictionary with keys 
+    and values corresponding to the JSON fields.
+    '''
     customer = request.get_json() 
 
     X = dv.transform([customer])
@@ -50,5 +54,8 @@ def predict():
     return jsonify(result) #Turn the response to JSON type!
 
 
+#Gunicorn doesn't care about this line because it is looking for a module
+#and in particullar is interested in app = Flask('churn') part.
+#With --bind 0.0.0.0:9696 we are opening port on that server. 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=9696)
