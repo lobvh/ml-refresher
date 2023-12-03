@@ -1,8 +1,0 @@
-#Refer to this:
-#https://devcenter.heroku.com/articles/build-docker-images-heroku-yml
-
-build:
-  docker:
-    web: Dockerfile
-run:
-  web: bundle exec puma -C config/puma.rb
