@@ -32,8 +32,12 @@ class Customer(BaseModel):
                                  Maybe not that necessary when someone comes and you send a request to an API,\
                                  but definetely might come handy as historical data/logs.")
 
-#TODO 1
-#Extracting a model goes here
+# Extracting a model 
+
+MODEL_FILE = './model/best_model.bin'
+with open(MODEL_FILE, 'rb') as f_in:
+    dv, model = pickle.load(f_in)
+
 
 #This serves as testing if API works at all
 @app.get("/")
@@ -41,34 +45,16 @@ def root() -> dict[str, str]:
     return {"message": "Hello World"}
 
 #Test if the post request actually works
-@app.post("/post")
-def add_item(customer: Customer) -> dict[str, str]:
-    return {"Yo": "It Works!",
-            "cust": str(customer.seniority)} #httpx don't understands nothing. be explicit. 
+@app.post("/")
+async def add_item(customer: Customer) -> dict[str, bool | float]:
 
-#TODO 2
-#Implement something like this:
-"""
-request here is part of Flask "from Flask import request"
+    cust_dict = dict(customer)
+    X_customer = dv.transform([cust_dict])
+    y_pred = model.predict_proba(X_customer)[0,1]
 
-    customer = request.get_json()
+    default = y_pred >= 0.5
 
-    X = dv.transform([customer])
-    y_pred = model.predict_proba(X)[0, 1]
-
-    #Marketing team for sending promotional emails doesn't understand
-    #for which kind of probability it will send a promotional email
-    #so we will be explicit here and send True if p>=0.5
-    churn = y_pred >= 0.5
-
-    #We have to use float() and bool() since JSON doesn't understand
-    #numpy's version of float and bool, only Pythons.
-    result = {
-        'churn_probability': float(y_pred),
-        'churn': bool(churn)
-    }
-
-    return jsonify(result) #Turn the response to JSON type!
-
-
-"""
+    return {
+            'probability_of_defaulting': float(y_pred),
+            'is_defaulting' : bool(default)
+            }
