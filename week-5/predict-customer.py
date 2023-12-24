@@ -5,7 +5,7 @@ from flask import request
 from flask import jsonify
 
 
-model_file = 'model_C=1.0.bin'
+MODEL_FILE = '/model/best_model.bin'
 
 '''
 with open() is concerned with opening and closing the file, but the pickle.load()
@@ -19,7 +19,7 @@ Finally, the file would be closed such that it doesn't use memory!
 
 '''
 
-with open(model_file, 'rb') as f_in:
+with open(MODEL_FILE, 'rb') as f_in:
     dv, model = pickle.load(f_in) 
 
 app = Flask('churn')
