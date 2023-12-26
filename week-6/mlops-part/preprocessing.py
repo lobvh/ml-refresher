@@ -144,6 +144,21 @@ df_scaled = column_transformer.fit_transform(df)
 df_scaled = pd.DataFrame(df_scaled, columns=columns_to_scale + columns_to_leave_unchanged).reset_index(drop = True)
 
 
+"""
+-------------------
+OPTIONAL: RESCALING THE DATA
+------------------
+
+This part is used for Streamlit to convert standard values used by human to something in backend that is used by model. 
+
+Note: It is very, very necessary to export the scaler which was applied to an ENTIRE dataset aka z-score for each column is calculated on 
+all rows in your dataset. 
+
+"""
+
+#import joblib
+#joblib.dump(column_transformer, './models/column_transformer.pkl')
+
 #Splitting the data
 df_full_train, df_test = train_test_split(df_scaled, test_size=0.2, random_state=RANDOM_STATE)
 df_train, df_val = train_test_split(df_full_train, test_size=0.25, random_state=RANDOM_STATE)
