@@ -54,6 +54,7 @@ def root() -> dict[str, str]:
 @app.post("/")
 async def add_item(customer: Customer) -> dict[str, bool | float]:
     cust_dict = dict(customer)
+    del cust_dict['id'] # I don't want this to compromise model's prediction.
     X_customer = dv.transform([cust_dict])
     y_pred = model.predict_proba(X_customer)[0, 1]
 
