@@ -47,14 +47,14 @@ with open(MODEL_FILE, "rb") as f_in:
 # This serves as testing if API works at all
 @app.get("/")
 def root() -> dict[str, str]:
-    return {"message": "Hello World"}
+    return {"message": "Hello World!"}
 
 
 # Test if the post request actually works
 @app.post("/")
 async def add_item(customer: Customer) -> dict[str, bool | float]:
     cust_dict = dict(customer)
-    del cust_dict['id'] # I don't want this to compromise model's prediction.
+    del cust_dict["id"]  # I don't want this to compromise model's prediction.
     X_customer = dv.transform([cust_dict])
     y_pred = model.predict_proba(X_customer)[0, 1]
 

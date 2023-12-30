@@ -1,8 +1,53 @@
 import joblib
 import pandas as pd
 import httpx
+from typing import Tuple
 
-def preprocess_customer(customer_dict: dict) -> dict:
+JSON = dict[str: float|str]
+
+'''
+Ideas to improve:
+
+    [] Split code into meaningful functions
+    [] Add docstrings to those function. Here is the example of docstirng pattern you should follow:
+
+    """
+    Scale customer data using the provided ColumnTransformer.
+
+    Parameters:
+        customer_dict (JSON): Dictionary containing customer data.
+        column_transformer (object): Loaded ColumnTransformer model.
+
+    Returns:
+        pd.DataFrame: Scaled customer data as a DataFrame.
+    """
+'''
+#Example of data as an input:
+
+"""
+{
+"seniority": 2,
+"income": 200,
+"assets": 200,
+"time": 1,
+"amount": 1000,
+"monthly_payment": 1000,
+"job": "fixed",
+"home": "rent",
+"records": "no",
+"status": 1,
+"id": 1
+}
+"""
+def stripping_id(customer: JSON) -> Tuple[str, JSON] :
+
+     customer_id = customer.pop('id')  # Removes 'id' key and returns its value
+
+    return customer_id, customer
+
+cust_id, cutomer_dict = stripping_id(customer)
+
+def preprocess_customer(customer_dict: JSON) -> JSON:
     #Stripping the id for now since ColumnTransformer doesn't expects it
     cust_id = customer_dict['id']
     del customer_dict['id']
@@ -36,6 +81,6 @@ def preprocess_customer(customer_dict: dict) -> dict:
 
     return customer_dict
 
-def send_request(cust_dict: dict) -> dict:
+def send_request(cust_dict: JSON) -> JSON:
     response = httpx.post(url = "http://localhost:8000/", json = cust_dict).json()
     return response

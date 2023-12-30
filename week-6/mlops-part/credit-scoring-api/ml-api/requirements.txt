@@ -1,5 +1,7 @@
+pipenv
 flake8==6.1.0
 black==23.12.1
 httpx
 numpy
 pandas
+streamlit==1.29.0

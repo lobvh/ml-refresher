@@ -11,9 +11,11 @@ RUN pipenv install --system --deploy
 
 COPY ./model ./model
 
-COPY ["main.py", "./"]
+COPY ./streamlit-app ./streamlit-app
 
-EXPOSE 8000
+WORKDIR /app/streamlit-app
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+EXPOSE 8501
+
+CMD ["streamlit", "run", "app-showdown.py", "--server.port=8501", "--server.address=0.0.0.0"]
 
